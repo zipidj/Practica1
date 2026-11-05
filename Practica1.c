@@ -74,5 +74,6 @@ int main() {
 
     // Demanar pes
     float pes;
+    int pes_introduit;
     return 0;
 }
