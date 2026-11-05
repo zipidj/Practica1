@@ -73,6 +73,6 @@ int main() {
     }
 
     // Demanar pes
-    float
+    float pes;
     return 0;
 }
