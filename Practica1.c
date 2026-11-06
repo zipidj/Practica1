@@ -13,7 +13,7 @@ const int prima_base[5][2] = {
 
 int main() {
     // Imprimir benvinguda
-    printf("***************************************\n***BENVINGUTS A ASSEGURANCES SAFELIFE***\n***************************************\n");
+    printf("******************************************\n*** BENVINGUTS A ASSEGURANCES SAFELIFE ***\n******************************************\n");
 
     // Demanar edat del client
     int edat;
@@ -158,52 +158,77 @@ int main() {
 
 
     // Inicialitzem el modificador de preu com un enter a 0
-    int modificador = 0;
+    int modificador_factors = 0;
 
     // Modificador per edat
     if (edat >= 18 && edat <= 29) {
-        modificador -= 10;
+        modificador_factors -= 10;
     } else if (edat >= 40 && edat <= 49) {
-        modificador += 25;
+        modificador_factors += 25;
     } else if (edat >= 50 && edat <= 59) {
-        modificador += 60;
+        modificador_factors += 60;
     } else if (edat >= 60 && edat <= 65) {
-        modificador += 110;
+        modificador_factors += 110;
     } else if (edat >= 66 && edat <= 70) {
-        modificador += 180;
+        modificador_factors += 180;
     }
 
     // Modificador per fumador
     if (fumador == 'S') {
-        modificador += 45;
+        modificador_factors += 45;
     }
 
     // Modificador per IMC
     if (imc < 18.5) {
-        modificador += 15;
+        modificador_factors += 15;
     } else if (imc >= 25 && imc < 30) {
-        modificador += 10;
+        modificador_factors += 10;
     } else if (imc >= 30) {
-        modificador += 30;
+        modificador_factors += 30;
     }
 
     // Modificador per professió
     if (professio == 2) {
-        modificador += 15;
+        modificador_factors += 15;
     } else if (professio == 3) {
-        modificador += 40;
+        modificador_factors += 40;
     }
 
     // Modificador per esport
     if (esport == 'S') {
-        modificador += 20;
+        modificador_factors += 20;
     }
 
 
     // Calcular la prima final
-    float prima_final = prima_base[3][1] * (1 + (modificador / 100.0));
+    float prima_final = prima_base[capital - 1][1] * (1 + (modificador_factors / 100.0));
+    
+    // Calcular modificador modalitat
+    float modificador_modalitat[3][2] = {
+        {1, 1},      // Basica
+        {2, 1.3},   // Ampliada
+        {3, 1.55},    // Premium
+    };
 
-    printf("%f", prima_final);
+    
 
+    // Calcular fraccionament
+    float modificador_fraccionament[4][2] = {
+        {1, 1},      // Anual
+        {2, 1.03},   // Semestral
+        {4, 1.05},    // Trimestral
+        {12, 1.08},    // Mensual
+    };
+
+    // Prima final
+    float taula_final[3][4];
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 4; j++) {
+        taula_final[i][j] = ((prima_final * modificador_modalitat[i][1]) * modificador_fraccionament[j][1])/modificador_fraccionament[j][0];
+        }
+    }    
+
+
+    
     return 0;
 }
